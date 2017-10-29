@@ -1,15 +1,15 @@
 # Docker container for mermaid
 
-[mermaid](http://knsv.github.io/mermaid/) is an open source tool for generating diagram and flowchart from text in a similar manner as markdown. This docker image contains mermaid 7.0.11 and is build on top of the official node 8.8.1 image. Installing the dependency phantomjs is tricky. I chose the solution from [jribar](https://hub.docker.com/r/jribar/node-phantomjs/~/dockerfile/).
+[mermaid](http://knsv.github.io/mermaid/) is an open source tool for generating diagram and flowchart from text in a similar manner as markdown. This docker image contains mermaid 7.0.0 and is build on top of the official node 8.8.1 image.
 
 * [GitHub Repository with Dockerbuild files](https://github.com/felixlohmeier/mermaid-docker)
 * [Docker Hub with docker images](https://hub.docker.com/r/felixlohmeier/mermaid)
 
 ## fixed versions
 
-* [mermaid 7.0.11](https://www.npmjs.com/package/mermaid)
+* [mermaid 7.0.0](https://yarn.pm/mermaid)
 * [node 8.8.1](https://hub.docker.com/_/node/)
-* [phantomjs 2.1.1](https://bitbucket.org/ariya/phantomjs/downloads/)
+* [phantomjs 2.1.4](https://yarn.pm/phantomjs-prebuilt)
 
 ## usage
 
@@ -18,7 +18,15 @@
 ## typical workflow
 
 1. Create your graph in [mermaid's live editor](https://mermaidjs.github.io/mermaid-live-editor/)
-2. Copy & paste your graph config in a text editor and save as myflowchart.mmd
-3. Run docker to create png and/or svg. Example (render svg and png; width of the generated png: 600 pixel):
+2. Copy & paste your graph config in a text editor and save it to a local file
+3. Download a stylesheet from <https://unpkg.com/mermaid@7.0.13/dist/themes/> (and customize it if you want)
+4. Run this docker container to create png and svg.
 
-> docker run --rm -v "$PWD":/data:z mermaid -s -p -w 600 myflowchart.mmd
+## Example
+
+* render both formats (svg + png): `-s -p`
+* width of the png: 600 pixel: `-w 600`
+* apply custom stylesheet [mermaid.neutral.css](https://unpkg.com/mermaid@7.0.13/dist/themes/mermaid.neutral.css) from local file `-t mermaid.neutral.css`
+* name of local file containing graph config: `myflowchart.mmd` 
+
+> docker run --rm -v "$PWD":/data:z felixlohmeier/mermaid -s -p -w 600 -t mermaid.neutral.css myflowchart.mmd
