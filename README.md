@@ -13,14 +13,30 @@
 
 ## usage
 
-> docker run --rm -v "$PWD":/data:z felixlohmeier/mermaid
+#### Docker command
+
+> docker run --rm -v "$PWD":/data:z -u "$UID:$GID" felixlohmeier/mermaid myflowchart.mdd
+
+#### Docker compose file
+
+```
+version: '3.7'
+
+services:
+  mermaid:
+    user: "$UID:$GID"
+    image: felixlohmeier/mermaid
+    volumes:
+      - ./:/data:z
+    command: ["-s", "-p", "myflowchart.mdd"]
+```
 
 ## typical workflow
 
 1. Create your graph in [mermaid's live editor](https://mermaidjs.github.io/mermaid-live-editor/)
 2. Copy & paste your graph config in a text editor and save it to a local file
 3. Download a stylesheet from <https://unpkg.com/mermaid@7.0.13/dist/themes/> (and customize it if you want)
-4. Run this docker container to create png and svg.
+4. Run a docker container with this Docker image to create png and svg.
 
 ## Example
 
@@ -29,4 +45,4 @@
 * apply custom stylesheet [mermaid.neutral.css](https://unpkg.com/mermaid@7.0.13/dist/themes/mermaid.neutral.css) from local file `-t mermaid.neutral.css`
 * name of local file containing graph config: `myflowchart.mmd` 
 
-> docker run --rm -v "$PWD":/data:z felixlohmeier/mermaid -s -p -w 600 -t mermaid.neutral.css myflowchart.mmd
+> docker run --rm -v "$PWD":/data:z -u "$UID:$GID" felixlohmeier/mermaid -s -p -w 600 -t mermaid.neutral.css myflowchart.mmd
